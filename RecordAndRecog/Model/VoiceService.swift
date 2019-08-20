@@ -23,8 +23,8 @@ class VoiceService : NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate {
     private var _soundPlayer : AVAudioPlayer!
     private var _soundRecognzer: SFSpeechRecognizer!
     private var _audioSession = AVAudioSession.sharedInstance()
-//    private var _filename = "audioFile.m4a"
-    private var _filename = "audioFile.wav"
+    private var _filename = "audioFile.m4a"
+//    private var _filename = "audioFile.acc"
     private var _playbackVolume : Float = 1.0
     private var _isPaused : Bool = false
     
@@ -83,10 +83,10 @@ class VoiceService : NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate {
     
     private func setUpRecorder() {
         let audioFilename = getFullPath(forFilename: _filename)
-        let recordSettings = [AVFormatIDKey : kAudioFormatLinearPCM,
-                              AVLinearPCMBitDepthKey : 8,
-                              AVNumberOfChannelsKey : 1,
-                              AVSampleRateKey : 600.0]
+        let recordSettings = [AVFormatIDKey : kAudioFormatMPEG4AAC,
+                              AVEncoderAudioQualityKey : AVAudioQuality.max.rawValue,
+                              AVNumberOfChannelsKey : 2,
+                              AVSampleRateKey : 44100.0]
             as [String : Any]
         
         do {
@@ -162,7 +162,7 @@ class VoiceService : NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate {
     
     func stopRecording() {
         //var checkTime = ""
-        print(time(f: _soundRecorder.stop()))
+        print(Utils.sharedInstance.time(f: _soundRecorder.stop()))
     }
     
     func isRecording() -> Bool {
@@ -227,6 +227,26 @@ class VoiceService : NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate {
         return audioFullFilename
     }
     
+    func renameAudio(newTitle: String) {
+        let today: Date = .init()
+        let formatter: DateFormatter = .init()
+        formatter.dateFormat = "YYYYMMdd hh:mm:ss"
+        let dateString = formatter.string(from: today)
+        
+        let fileName = dateString + "-" + newTitle // 20190820-newTitle.m4a
+        
+        do {
+            let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+            let documentDirectory = URL(fileURLWithPath: path)
+            let originPath = documentDirectory.appendingPathComponent(_filename)
+            //let destinationPath = documentDirectory.appendingPathComponent("\(newTitle).m4a")
+            let destinationPath = documentDirectory.appendingPathComponent("\(fileName).m4a")
+            try FileManager.default.moveItem(at: originPath, to: destinationPath)
+        } catch {
+            print(error)
+        }
+    }
+    
     func getMeterLevel() -> [Float] {
         var dbArray : [Float] = []
         let settings = _soundRecorder.settings
@@ -237,12 +257,7 @@ class VoiceService : NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate {
         return dbArray
     }
     
-    func time <A> (f: @autoclosure () -> A) -> (result:A, duration: String) {
-        let startTime = CFAbsoluteTimeGetCurrent()
-        let result = f()
-        let endTime = CFAbsoluteTimeGetCurrent()
-        return (result, "Elapsed time is \(endTime - startTime) seconds.")
-    }
+    
 }
 
 // MARK: - SFSpeechRecognitionTaskDelegate -
@@ -260,7 +275,7 @@ extension VoiceService: SFSpeechRecognitionTaskDelegate {
 extension VoiceService: SFSpeechRecognizerDelegate {
     public func speechRecognizer(_ speechRecognizer: SFSpeechRecognizer, availabilityDidChange available: Bool) {
         if available {
-            print("Start Recording")
+            print("Start Recognition")
         } else {
             print("Recognition not available")
         }

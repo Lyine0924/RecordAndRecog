@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="s6O-cS-fGg">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -10,10 +10,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--녹음 화면-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="DemoRecorder" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="RecordAndRecog" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -79,29 +79,88 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8gK-la-OSD">
+                                <rect key="frame" x="166" y="560" width="42" height="30"/>
+                                <state key="normal" title="Save!!"/>
+                                <connections>
+                                    <action selector="save:" destination="BYZ-38-t0r" eventType="touchUpInside" id="8N1-Ka-SU8"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="8gK-la-OSD" secondAttribute="bottom" constant="28" id="2ic-zC-V1f"/>
                             <constraint firstItem="AGH-Cq-4DC" firstAttribute="top" secondItem="SAT-Sh-r9w" secondAttribute="bottom" constant="44.5" id="Bm5-Ui-cUe"/>
                             <constraint firstItem="adc-aC-aVt" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Gnn-OM-OPq"/>
                             <constraint firstItem="2Re-43-j6D" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="Wzg-cS-IhE"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="8gK-la-OSD" secondAttribute="trailing" constant="167" id="dSN-U2-jtd"/>
                             <constraint firstItem="2Re-43-j6D" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="50" id="qXU-MF-Uca"/>
                             <constraint firstItem="adc-aC-aVt" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="tan-mP-fmO"/>
+                            <constraint firstItem="8gK-la-OSD" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="166" id="tny-0L-HHw"/>
                             <constraint firstItem="SAT-Sh-r9w" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="y5C-EQ-opC"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <tabBarItem key="tabBarItem" title="녹음 화면" id="hft-tj-e5J"/>
                     <connections>
                         <outlet property="inputValue" destination="SAT-Sh-r9w" id="DeD-SH-UQ8"/>
                         <outlet property="playPauseButton" destination="AGH-Cq-4DC" id="KeZ-Zj-vIB"/>
                         <outlet property="recogTextView" destination="CUf-cd-Ysm" id="jUs-aZ-6ou"/>
                         <outlet property="recordButton" destination="ra9-zM-uea" id="jeY-FY-yem"/>
+                        <outlet property="saveButton" destination="8gK-la-OSD" id="nwF-6w-s6v"/>
                         <outlet property="stopButton" destination="AgK-bb-ick" id="2X9-t9-f2D"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="136.80000000000001" y="133.5832083958021"/>
+            <point key="canvasLocation" x="1937" y="-15"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="Na9-bA-vSQ">
+            <objects>
+                <tabBarController id="s6O-cS-fGg" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="D4C-gQ-akC">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="hZr-11-uWH"/>
+                        <segue destination="GhW-pC-Mm2" kind="relationship" relationship="viewControllers" id="e8H-PQ-30G"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zSX-ag-niN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="985" y="333"/>
+        </scene>
+        <!--녹음 목록-->
+        <scene sceneID="IgZ-M2-WVv">
+            <objects>
+                <tableViewController id="GhW-pC-Mm2" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="KcE-i2-MuT">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="meC-22-CSu">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="meC-22-CSu" id="Yx3-NZ-3F3">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="GhW-pC-Mm2" id="Axp-47-NxP"/>
+                            <outlet property="delegate" destination="GhW-pC-Mm2" id="tHB-V5-q8y"/>
+                        </connections>
+                    </tableView>
+                    <tabBarItem key="tabBarItem" title="녹음 목록" id="d0a-2L-zyA"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2AX-mI-PNt" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1937" y="721"/>
         </scene>
     </scenes>
     <resources>

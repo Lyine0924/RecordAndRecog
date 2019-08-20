@@ -18,10 +18,12 @@ class ViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPlayerDe
     @IBOutlet weak var inputValue: UILabel!
     
     @IBOutlet weak var recogTextView: UITextView!
+    @IBOutlet weak var saveButton: UIButton!
     
     
     
     var recorderAndPlayer : VoiceService = VoiceService.sharedInstance
+    var utils : Utils = Utils.sharedInstance
     
     var timer : Timer!
     
@@ -71,11 +73,43 @@ class ViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPlayerDe
     @IBAction func stopTouchUp(_ sender: Any) {
         if (recorderAndPlayer.isRecording()) {
             recorderAndPlayer.stopRecording()
+            saveButton.isEnabled = true
         }
         else if (recorderAndPlayer.isPlaying() || recorderAndPlayer.isPaused()) {
             recorderAndPlayer.stopPlayback()
         }
     }
+    
+    @IBAction func save(_ sender: Any) {
+        // 이 버튼을 눌렀을 때, 알림창을 띄워줌
+        /* 파일 이름을 변경하시겠습니까?
+         default : audioFile, Yes or No
+         No ==> 바로 저장, 저장완료 알림 띄우기
+         Yes ==> 새로운 커스텀 알림창 -> Label 확인, 취소 버튼 ==> 완료시, 취소시 알림.
+         */
+        let alert = UIAlertController(title: "저장 하기", message: "변경할 파일명을 입력해주세요.", preferredStyle: .alert)
+        
+        alert.addTextField { (tf) in
+            tf.placeholder = "audioFile"
+        }
+        
+        let ok = UIAlertAction(title: "저장", style: .default) { (ok) in
+           let rename = alert.textFields?[0].text ?? "audioFile"
+           self.recorderAndPlayer.renameAudio(newTitle:rename)
+        }
+        
+        let cancel = UIAlertAction(title: "취소", style: .cancel)
+        
+        alert.addAction(ok)
+        alert.addAction(cancel)
+        
+        self.saveButton.isEnabled = false
+        
+        self.present(alert, animated: false) {
+            print("saved!!")
+        }
+    }
+    
     
     //MARK: Notification Responders
     @objc func _recordingDidStart(_ notification:Notification) {

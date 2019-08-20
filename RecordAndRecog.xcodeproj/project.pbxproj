@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		3E2BAD6F2306898000B2EFA5 /* VoiceRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E2BAD6E2306898000B2EFA5 /* VoiceRecognizer.swift */; };
+		3E44259A230BD6A1003C1122 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E442599230BD6A1003C1122 /* Utils.swift */; };
+		3E44259C230BEA78003C1122 /* RecordedListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E44259B230BEA78003C1122 /* RecordedListVC.swift */; };
 		CC3DE31F223CAAB1000A1F76 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3DE31E223CAAB1000A1F76 /* AppDelegate.swift */; };
 		CC3DE321223CAAB1000A1F76 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3DE320223CAAB1000A1F76 /* ViewController.swift */; };
 		CC3DE324223CAAB1000A1F76 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC3DE322223CAAB1000A1F76 /* Main.storyboard */; };
@@ -22,6 +24,8 @@
 
 /* Begin PBXFileReference section */
 		3E2BAD6E2306898000B2EFA5 /* VoiceRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceRecognizer.swift; sourceTree = "<group>"; };
+		3E442599230BD6A1003C1122 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Utils.swift; path = "../../../../../../myeongsoo-Linne/Lemonhc/ws/RecordAndRecog/RecordAndRecog/Model/Utils.swift"; sourceTree = "<group>"; };
+		3E44259B230BEA78003C1122 /* RecordedListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RecordedListVC.swift; path = "../../../../../../myeongsoo-Linne/Lemonhc/ws/RecordAndRecog/RecordAndRecog/Controller/RecordedListVC.swift"; sourceTree = "<group>"; };
 		CC3DE31B223CAAB1000A1F76 /* RecordAndRecog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RecordAndRecog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC3DE31E223CAAB1000A1F76 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CC3DE320223CAAB1000A1F76 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -83,6 +87,7 @@
 			children = (
 				CCB7C269223F04270034343F /* VoiceService.swift */,
 				3E2BAD6E2306898000B2EFA5 /* VoiceRecognizer.swift */,
+				3E442599230BD6A1003C1122 /* Utils.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -91,6 +96,7 @@
 			isa = PBXGroup;
 			children = (
 				CC3DE320223CAAB1000A1F76 /* ViewController.swift */,
+				3E44259B230BEA78003C1122 /* RecordedListVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -189,7 +195,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3E44259A230BD6A1003C1122 /* Utils.swift in Sources */,
 				CC3DE321223CAAB1000A1F76 /* ViewController.swift in Sources */,
+				3E44259C230BEA78003C1122 /* RecordedListVC.swift in Sources */,
 				CCB7C26A223F04270034343F /* VoiceService.swift in Sources */,
 				3E2BAD6F2306898000B2EFA5 /* VoiceRecognizer.swift in Sources */,
 				CC3DE31F223CAAB1000A1F76 /* AppDelegate.swift in Sources */,
