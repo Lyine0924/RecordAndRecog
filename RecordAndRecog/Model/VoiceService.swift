@@ -1,8 +1,8 @@
 //
-//  VoiceRecorderAndPlayer.swift
-//  DemoRecorder
+//  VoiceService.swift
+//  RecordAndRecog
 //
-//  Created by Kiran Kumar on 3/17/19.
+//  Created by Lyine on 8/19/19.
 //  Copyright © 2019 Kiran Kumar. All rights reserved.
 //
 
@@ -17,13 +17,14 @@ let PlaybackDidStartNotification = Notification.Name("PlaybackDidStart")
 let PlaybackDidPauseNotification = Notification.Name("PlaybackDidPause")
 let PlaybackDidFinishNotification = Notification.Name("PlaybackDidFinish")
 
-class VoiceService : NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate, SFSpeechRecognizerDelegate{
+class VoiceService : NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate {
 
     private var _soundRecorder : AVAudioRecorder!
     private var _soundPlayer : AVAudioPlayer!
     private var _soundRecognzer: SFSpeechRecognizer!
     private var _audioSession = AVAudioSession.sharedInstance()
-    private var _filename = "audioFile.aac"
+//    private var _filename = "audioFile.m4a"
+    private var _filename = "audioFile.wav"
     private var _playbackVolume : Float = 1.0
     private var _isPaused : Bool = false
     
@@ -55,18 +56,37 @@ class VoiceService : NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate, S
     
     // default
     /*
+     1.
      let recordSettings = [AVFormatIDKey : kAudioFormatMPEG4AAC,
      AVEncoderAudioQualityKey : AVAudioQuality.max.rawValue,
      AVNumberOfChannelsKey : 2,
      AVSampleRateKey : 44100.0]
      as [String : Any]
+     
+     2.
+     let recordSettings = [AVFormatIDKey : kAudioFormatLinearPCM,
+     AVLinearPCMBitDepthKey : 8,
+     AVNumberOfChannelsKey : 1,
+     AVSampleRateKey : 600.0]
+     as [String : Any]
+     
+     3.
+     let recordSettings = [AVFormatIDKey : kAudioFormatMPEG4AAC,
+     AVEncoderAudioQualityKey : AVAudioQuality.max.rawValue,
+     AVNumberOfChannelsKey : 1,
+     AVSampleRateKey : 12000.0]
+     as [String : Any]
+     
+     음질에 따라 음성 인식률 달라짐 : 1 >>> 3 >> 2 순임
+     파일 사이즈(앞쪽이 작은것) : 2 >> 3 >>> 1
      */
+    
     private func setUpRecorder() {
         let audioFilename = getFullPath(forFilename: _filename)
-        let recordSettings = [AVFormatIDKey : kAudioFormatMPEG4AAC,
-                              AVEncoderAudioQualityKey : AVAudioQuality.max.rawValue,
-                              AVNumberOfChannelsKey : 2,
-                              AVSampleRateKey : 44100.0]
+        let recordSettings = [AVFormatIDKey : kAudioFormatLinearPCM,
+                              AVLinearPCMBitDepthKey : 8,
+                              AVNumberOfChannelsKey : 1,
+                              AVSampleRateKey : 600.0]
             as [String : Any]
         
         do {
@@ -91,6 +111,7 @@ class VoiceService : NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate, S
         }
     }
     
+    // MARK: recognizeSpeech
     // recognitionTask 함수가 비동기로 실행이 되는듯
     /* 함수 return 시점 이전에 위의 태스크가 완료가 되지 않기 때문에 -> return String 의 형식으로는 인식된 글자를 전달 할 수 없음
        내가 해결한 방법 : Task 가 끝나는 시점을 명확히 알려주기 위해 클로져 구문을 사용하였음. 위 방법이 맞는지는 추후 연구해 볼 것.
@@ -132,7 +153,7 @@ class VoiceService : NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate, S
         }
     }
     
-    
+
     //MARK: Recording
     func record() {
         _soundRecorder.record()
@@ -140,7 +161,8 @@ class VoiceService : NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate, S
     }
     
     func stopRecording() {
-        _soundRecorder.stop()
+        //var checkTime = ""
+        print(time(f: _soundRecorder.stop()))
     }
     
     func isRecording() -> Bool {
@@ -213,5 +235,34 @@ class VoiceService : NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate, S
             dbArray.append(_soundRecorder.averagePower(forChannel: ch))
         }
         return dbArray
+    }
+    
+    func time <A> (f: @autoclosure () -> A) -> (result:A, duration: String) {
+        let startTime = CFAbsoluteTimeGetCurrent()
+        let result = f()
+        let endTime = CFAbsoluteTimeGetCurrent()
+        return (result, "Elapsed time is \(endTime - startTime) seconds.")
+    }
+}
+
+// MARK: - SFSpeechRecognitionTaskDelegate -
+extension VoiceService: SFSpeechRecognitionTaskDelegate {
+    public func speechRecognitionTask(_ task: SFSpeechRecognitionTask, didFinishSuccessfully successfully: Bool) {
+        print("didFinishSuccessfully: \(successfully)")
+    }
+    
+    func speechRecognitionTask(_ task: SFSpeechRecognitionTask, didHypothesizeTranscription transcription: SFTranscription) {
+        print(transcription.formattedString)
+    }
+}
+
+// MARK: - SFSpeechRecognizerDelegate -
+extension VoiceService: SFSpeechRecognizerDelegate {
+    public func speechRecognizer(_ speechRecognizer: SFSpeechRecognizer, availabilityDidChange available: Bool) {
+        if available {
+            print("Start Recording")
+        } else {
+            print("Recognition not available")
+        }
     }
 }
