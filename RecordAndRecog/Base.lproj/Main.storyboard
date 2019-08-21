@@ -171,7 +171,11 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="qDU-zm-UM1">
-                        <barButtonItem key="rightBarButtonItem" systemItem="compose" id="B0K-qN-Ocv"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="compose" id="B0K-qN-Ocv">
+                            <connections>
+                                <action selector="convertTo:" destination="GhW-pC-Mm2" id="dGe-x1-QQi"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2AX-mI-PNt" userLabel="First Responder" sceneMemberID="firstResponder"/>

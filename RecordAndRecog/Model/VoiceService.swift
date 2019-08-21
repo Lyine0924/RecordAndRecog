@@ -23,7 +23,7 @@ class VoiceService : NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate {
     private var _soundPlayer : AVAudioPlayer!
     private var _soundRecognzer: SFSpeechRecognizer!
     private var _audioSession = AVAudioSession.sharedInstance()
-    private var _filename = "audioFile.m4a"
+    private var _filename = "audioFile.wav"
 //    private var _filename = "audioFile.acc"
     private var _playbackVolume : Float = 1.0
     private var _isPaused : Bool = false
@@ -70,6 +70,14 @@ class VoiceService : NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate {
      AVSampleRateKey : 600.0]
      as [String : Any]
      
+     let recordSettings = [AVFormatIDKey : kAudioFormatLinearPCM,
+     AVLinearPCMBitDepthKey : 16,
+     AVNumberOfChannelsKey : 2,
+     AVSampleRateKey : 44100.0,
+     AVLinearPCMIsBigEndianKey:true,
+     AVLinearPCMIsFloatKey:true]
+     as [String : Any]
+     
      3.
      let recordSettings = [AVFormatIDKey : kAudioFormatMPEG4AAC,
      AVEncoderAudioQualityKey : AVAudioQuality.max.rawValue,
@@ -83,10 +91,12 @@ class VoiceService : NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate {
     
     private func setUpRecorder() {
         let audioFilename = utils.getFullPath(forFilename: _filename)
-        let recordSettings = [AVFormatIDKey : kAudioFormatMPEG4AAC,
-                              AVEncoderAudioQualityKey : AVAudioQuality.max.rawValue,
+        let recordSettings = [AVFormatIDKey : kAudioFormatLinearPCM,
+                              AVLinearPCMBitDepthKey : 16,
                               AVNumberOfChannelsKey : 2,
-                              AVSampleRateKey : 44100.0]
+                              AVSampleRateKey : 44100.0,
+                              AVLinearPCMIsBigEndianKey:true,
+                              AVLinearPCMIsFloatKey:true]
             as [String : Any]
         
         do {
@@ -233,7 +243,7 @@ class VoiceService : NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate {
 //            let destinationPath = documentDirectory.appendingPathComponent("\(newTitle).m4a")
             let documentDirectory = utils.getDocumentDirectory()
             let originPath = utils.getFullPath(forFilename: _filename)
-            let destinationPath = utils.getFullPath(forFilename:"\(fileName).m4a")
+            let destinationPath = utils.getFullPath(forFilename:"\(fileName).wav")
             try FileManager.default.moveItem(at: originPath, to: destinationPath)
         } catch {
             print(error)
@@ -249,7 +259,6 @@ class VoiceService : NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate {
         }
         return dbArray
     }
-    
     
 }
 

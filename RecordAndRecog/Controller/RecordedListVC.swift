@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AudioKit
 
 class RecordedListVC: UITableViewController {
     
@@ -16,7 +17,7 @@ class RecordedListVC: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        list = utils.getFileList(type: "m4a")!
+        list = utils.getFileList(type: "wav")!
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -27,9 +28,36 @@ class RecordedListVC: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         list.removeAll()
-        list = utils.getFileList(type: "m4a")!
+        list = utils.getFileList(type: "wav")!
         self.tableView.reloadData()
     }
+    
+    // MARK: - conver to fileformat
+    
+    @IBAction func convertTo(_ sender: Any) {
+        self.convert(filename: "test")
+    }
+    
+    // convert to file into wav , caf ,
+    func convert(filename:String) {
+        var options = AKConverter.Options()
+        options.format = "wav"
+        options.sampleRate = 48000
+        options.bitDepth = 24
+        
+        let testname = "20190820-test"
+        
+        let oldURL = utils.getFullPath(forFilename: "\(testname).m4a")
+        //let newURL = utils.getFullPath(forFilename: "\(testname).\(options.format)")
+        let newURL = utils.getFullPath(forFilename: "\(testname).wav")
+        
+        let converter = AKConverter(inputURL: oldURL, outputURL: newURL)
+        
+        converter.start(completionHandler: { error in
+            print("error is occured : \(error?.localizedDescription)")
+        })
+    }
+    
     // MARK: - Table view data source
 
 //    override func numberOfSections(in tableView: UITableView) -> Int {
@@ -97,5 +125,8 @@ class RecordedListVC: UITableViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    
+    
 
 }

@@ -43,9 +43,9 @@ class Utils: NSObject {
             
             // if you want to filter the directory contents you can do like this:
             let Files = directoryContents.filter{ $0.pathExtension == "\(type)" }
-            print("m4a urls:",Files)
+            print("wav urls:",Files)
             let FileNames = Files.map{ $0.deletingPathExtension().lastPathComponent }
-            print("m4a list:", FileNames)
+            print("wav list:", FileNames)
             
             fileList = FileNames
             
