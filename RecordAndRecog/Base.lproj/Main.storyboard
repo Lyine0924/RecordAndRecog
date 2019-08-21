@@ -126,14 +126,14 @@
                     </tabBar>
                     <connections>
                         <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="hZr-11-uWH"/>
-                        <segue destination="GhW-pC-Mm2" kind="relationship" relationship="viewControllers" id="e8H-PQ-30G"/>
+                        <segue destination="gWE-yx-TH0" kind="relationship" relationship="viewControllers" id="e8H-PQ-30G"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zSX-ag-niN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="985" y="333"/>
         </scene>
-        <!--녹음 목록-->
+        <!--Recorded ListVC-->
         <scene sceneID="IgZ-M2-WVv">
             <objects>
                 <tableViewController id="GhW-pC-Mm2" customClass="RecordedListVC" customModule="RecordAndRecog" customModuleProvider="target" sceneMemberID="viewController">
@@ -170,11 +170,32 @@
                             <outlet property="delegate" destination="GhW-pC-Mm2" id="tHB-V5-q8y"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" tag="1" title="녹음 목록" id="d0a-2L-zyA"/>
+                    <navigationItem key="navigationItem" id="qDU-zm-UM1">
+                        <barButtonItem key="rightBarButtonItem" systemItem="compose" id="B0K-qN-Ocv"/>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2AX-mI-PNt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1937" y="721"/>
+            <point key="canvasLocation" x="2876" y="720.98950524737631"/>
+        </scene>
+        <!--녹음 목록-->
+        <scene sceneID="Pw2-3e-YI4">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="gWE-yx-TH0" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" tag="1" title="녹음 목록" id="d0a-2L-zyA"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="8FB-Az-Arn">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="GhW-pC-Mm2" kind="relationship" relationship="rootViewController" id="1Pe-Hd-Bnz"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nRs-OQ-SGq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1936.8" y="720.98950524737631"/>
         </scene>
     </scenes>
     <resources>

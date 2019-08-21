@@ -95,7 +95,7 @@ class ViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPlayerDe
         
         let ok = UIAlertAction(title: "저장", style: .default) { (ok) in
             var rename = alert.textFields?[0].text
-            if let empty = rename?.isEmpty {
+            if rename!.isEmpty {
                 rename = "audioFile"
             }
            self.recorderAndPlayer.renameAudio(newTitle:rename!)
