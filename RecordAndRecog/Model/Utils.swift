@@ -19,4 +19,40 @@ class Utils: NSObject {
         return (result, "Elapsed time is \(endTime - startTime) seconds.")
     }
     
+    //MARK: - Utilities
+    func getDocumentDirectory() -> URL {
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        return paths[0]
+    }
+    
+    func getFullPath(forFilename : String) -> URL{
+        let audioFullFilename = getDocumentDirectory().appendingPathComponent(forFilename)
+        return audioFullFilename
+    }
+    
+    func getFileList(type: String)->[String]? {
+        
+        var fileList = [String]()
+        // Get the document directory url
+        let documentsUrl =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        
+        do {
+            // Get the directory contents urls (including subfolders urls)
+            let directoryContents = try FileManager.default.contentsOfDirectory(at: documentsUrl, includingPropertiesForKeys: nil, options: [])
+            print(directoryContents)
+            
+            // if you want to filter the directory contents you can do like this:
+            let Files = directoryContents.filter{ $0.pathExtension == "\(type)" }
+            print("m4a urls:",Files)
+            let FileNames = Files.map{ $0.deletingPathExtension().lastPathComponent }
+            print("m4a list:", FileNames)
+            
+            fileList = FileNames
+            
+        } catch let error as NSError {
+            print(error.localizedDescription)
+        }
+        return fileList
+    }
+    
 }

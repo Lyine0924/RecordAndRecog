@@ -29,7 +29,7 @@ class VoiceService : NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate {
     private var _isPaused : Bool = false
     
     static let sharedInstance = VoiceService()
-    
+    let utils : Utils = Utils.sharedInstance
     
     private override init() { // Is it that easy to make the init private?
         
@@ -82,7 +82,7 @@ class VoiceService : NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate {
      */
     
     private func setUpRecorder() {
-        let audioFilename = getFullPath(forFilename: _filename)
+        let audioFilename = utils.getFullPath(forFilename: _filename)
         let recordSettings = [AVFormatIDKey : kAudioFormatMPEG4AAC,
                               AVEncoderAudioQualityKey : AVAudioQuality.max.rawValue,
                               AVNumberOfChannelsKey : 2,
@@ -100,7 +100,7 @@ class VoiceService : NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate {
     }
     
     private func setUpPlayer() {
-        let audioFilename = getFullPath(forFilename: _filename)
+        let audioFilename = utils.getFullPath(forFilename: _filename)
         do {
             _soundPlayer = try AVAudioPlayer(contentsOf: audioFilename)
             _soundPlayer.delegate = self
@@ -125,7 +125,7 @@ class VoiceService : NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate {
                 
                 //let recognizer = SFSpeechRecognizer()
                 self._soundRecognzer = SFSpeechRecognizer(locale: Locale.init(identifier: "ko-KR"))
-                let request = SFSpeechURLRecognitionRequest(url: self.getFullPath(forFilename: self._filename))
+                let request = SFSpeechURLRecognitionRequest(url: self.utils.getFullPath(forFilename: self._filename))
                 
                 self._soundRecognzer?.recognitionTask(with: request, resultHandler: { (result, error) in
                     if let error = error {
@@ -216,31 +216,24 @@ class VoiceService : NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate {
         NotificationCenter.default.post(name: PlaybackDidFinishNotification, object: self)
     }
     
-    //MARK: - Utilities
-    func getDocumentDirectory() -> URL {
-        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        return paths[0]
-    }
     
-    func getFullPath(forFilename : String) -> URL{
-        let audioFullFilename = getDocumentDirectory().appendingPathComponent(forFilename)
-        return audioFullFilename
-    }
     
     func renameAudio(newTitle: String) {
         let today: Date = .init()
         let formatter: DateFormatter = .init()
-        formatter.dateFormat = "YYYYMMdd hh:mm:ss"
+        formatter.dateFormat = "yyyyMMdd HH:mm:ss"
         let dateString = formatter.string(from: today)
         
         let fileName = dateString + "-" + newTitle // 20190820-newTitle.m4a
         
         do {
-            let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
-            let documentDirectory = URL(fileURLWithPath: path)
-            let originPath = documentDirectory.appendingPathComponent(_filename)
-            //let destinationPath = documentDirectory.appendingPathComponent("\(newTitle).m4a")
-            let destinationPath = documentDirectory.appendingPathComponent("\(fileName).m4a")
+//            let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+//            let documentDirectory = URL(fileURLWithPath: path)
+//            let originPath = documentDirectory.appendingPathComponent(_filename)
+//            let destinationPath = documentDirectory.appendingPathComponent("\(newTitle).m4a")
+            let documentDirectory = utils.getDocumentDirectory()
+            let originPath = utils.getFullPath(forFilename: _filename)
+            let destinationPath = utils.getFullPath(forFilename:"\(fileName).m4a")
             try FileManager.default.moveItem(at: originPath, to: destinationPath)
         } catch {
             print(error)

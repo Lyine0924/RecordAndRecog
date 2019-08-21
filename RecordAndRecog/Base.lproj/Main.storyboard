@@ -136,18 +136,32 @@
         <!--녹음 목록-->
         <scene sceneID="IgZ-M2-WVv">
             <objects>
-                <tableViewController id="GhW-pC-Mm2" sceneMemberID="viewController">
+                <tableViewController id="GhW-pC-Mm2" customClass="RecordedListVC" customModule="RecordAndRecog" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="KcE-i2-MuT">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <view key="tableFooterView" contentMode="scaleToFill" id="Se5-fj-O33">
+                            <rect key="frame" x="0.0" y="72" width="375" height="44"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </view>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="meC-22-CSu">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="recordCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="recordCell" textLabel="Agc-EJ-bf1" style="IBUITableViewCellStyleDefault" id="meC-22-CSu">
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="meC-22-CSu" id="Yx3-NZ-3F3">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Agc-EJ-bf1">
+                                            <rect key="frame" x="16" y="0.0" width="343" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
                                 </tableViewCellContentView>
                             </tableViewCell>
                         </prototypes>
@@ -156,7 +170,7 @@
                             <outlet property="delegate" destination="GhW-pC-Mm2" id="tHB-V5-q8y"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="녹음 목록" id="d0a-2L-zyA"/>
+                    <tabBarItem key="tabBarItem" tag="1" title="녹음 목록" id="d0a-2L-zyA"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2AX-mI-PNt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

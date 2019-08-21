@@ -94,8 +94,11 @@ class ViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPlayerDe
         }
         
         let ok = UIAlertAction(title: "저장", style: .default) { (ok) in
-           let rename = alert.textFields?[0].text ?? "audioFile"
-           self.recorderAndPlayer.renameAudio(newTitle:rename)
+            var rename = alert.textFields?[0].text
+            if let empty = rename?.isEmpty {
+                rename = "audioFile"
+            }
+           self.recorderAndPlayer.renameAudio(newTitle:rename!)
         }
         
         let cancel = UIAlertAction(title: "취소", style: .cancel)
