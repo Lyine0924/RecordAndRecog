@@ -36,7 +36,7 @@ class ViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPlayerDe
  
     override func viewDidLoad() {
         super.viewDidLoad()
-
+       
         playPauseButton.isEnabled = false
         playPauseButton.accessibilityIdentifier = playImageID
         stopButton.isEnabled = false
@@ -52,6 +52,7 @@ class ViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPlayerDe
     //MARK: IBActions
     @IBAction func recordTouchUp(_ sender: Any) {
         recorderAndPlayer.record()
+        saveButton.isEnabled = false
     }
     
     @IBAction func playPauseTouchUp(_ sender: Any) {

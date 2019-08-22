@@ -35,6 +35,7 @@ class VoiceService : NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate {
         
         super.init()
         setUpRecorder()
+        setUpPlayer()
         
         /* Initially, I got the following errors everytime I try to play back recorded audio the FIRST TIME ONLY after launching my app:
          DemoRecorder[5930:2262392] [avas] AVAudioSessionPortImpl.mm:56:ValidateRequiredFields: Unknown selected data source for Port Speaker (type: Speaker)

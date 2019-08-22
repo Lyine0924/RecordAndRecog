@@ -8,8 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		3E2BAD6F2306898000B2EFA5 /* VoiceRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E2BAD6E2306898000B2EFA5 /* VoiceRecognizer.swift */; };
-		3E44259A230BD6A1003C1122 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E442599230BD6A1003C1122 /* Utils.swift */; };
-		3E44259C230BEA78003C1122 /* RecordedListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E44259B230BEA78003C1122 /* RecordedListVC.swift */; };
+		3E351B62230E805F006C45A6 /* RecordedListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E44259B230BEA78003C1122 /* RecordedListVC.swift */; settings = {COMPILER_FLAGS = ./RecordAndRecog/Controller/RecordedListVC.swift; }; };
+		3E351B63230E8062006C45A6 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E442599230BD6A1003C1122 /* Utils.swift */; settings = {COMPILER_FLAGS = ./RecordAndRecog/RecordAndRecog/Model/Utils.swift; }; };
 		48991BB10555CAC161192F1E /* Pods_RecordAndRecog.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43B3E94B9D993C42800C4B70 /* Pods_RecordAndRecog.framework */; };
 		CC3DE31F223CAAB1000A1F76 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3DE31E223CAAB1000A1F76 /* AppDelegate.swift */; };
 		CC3DE321223CAAB1000A1F76 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3DE320223CAAB1000A1F76 /* ViewController.swift */; };
@@ -25,8 +25,8 @@
 
 /* Begin PBXFileReference section */
 		3E2BAD6E2306898000B2EFA5 /* VoiceRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceRecognizer.swift; sourceTree = "<group>"; };
-		3E442599230BD6A1003C1122 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Utils.swift; path = "../../../../../../myeongsoo-Linne/Lemonhc/ws/RecordAndRecog/RecordAndRecog/Model/Utils.swift"; sourceTree = "<group>"; };
-		3E44259B230BEA78003C1122 /* RecordedListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RecordedListVC.swift; path = "../../../../../../myeongsoo-Linne/Lemonhc/ws/RecordAndRecog/RecordAndRecog/Controller/RecordedListVC.swift"; sourceTree = "<group>"; };
+		3E442599230BD6A1003C1122 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Utils.swift; path = "../../../../../../../myeongsoo-Linne/Lemonhc/ws/sourcecommit/RecordAndRecog/RecordAndRecog/Model/Utils.swift"; sourceTree = "<group>"; };
+		3E44259B230BEA78003C1122 /* RecordedListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RecordedListVC.swift; path = "../../../../../../../myeongsoo-Linne/Lemonhc/ws/sourcecommit/RecordAndRecog/RecordAndRecog/Controller/RecordedListVC.swift"; sourceTree = "<group>"; };
 		43B3E94B9D993C42800C4B70 /* Pods_RecordAndRecog.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RecordAndRecog.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6EA71046BBA977D032B80FDF /* Pods-RecordAndRecog.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RecordAndRecog.debug.xcconfig"; path = "Target Support Files/Pods-RecordAndRecog/Pods-RecordAndRecog.debug.xcconfig"; sourceTree = "<group>"; };
 		89856E3E5457E7628712AC12 /* Pods-RecordAndRecog.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RecordAndRecog.release.xcconfig"; path = "Target Support Files/Pods-RecordAndRecog/Pods-RecordAndRecog.release.xcconfig"; sourceTree = "<group>"; };
@@ -245,12 +245,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3E44259A230BD6A1003C1122 /* Utils.swift in Sources */,
 				CC3DE321223CAAB1000A1F76 /* ViewController.swift in Sources */,
-				3E44259C230BEA78003C1122 /* RecordedListVC.swift in Sources */,
 				CCB7C26A223F04270034343F /* VoiceService.swift in Sources */,
+				3E351B62230E805F006C45A6 /* RecordedListVC.swift in Sources */,
 				3E2BAD6F2306898000B2EFA5 /* VoiceRecognizer.swift in Sources */,
 				CC3DE31F223CAAB1000A1F76 /* AppDelegate.swift in Sources */,
+				3E351B63230E8062006C45A6 /* Utils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
