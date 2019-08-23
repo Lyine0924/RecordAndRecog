@@ -184,6 +184,10 @@ class VoiceService : NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate {
         _soundRecorder.updateMeters()
     }
     
+    func updatePlayingMeters(){
+        _soundPlayer.updateMeters()
+    }
+    
     //MARK: Playback
     func play() {
         _soundPlayer.play()
@@ -228,6 +232,31 @@ class VoiceService : NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate {
     }
     
     
+    func updateAudioMeter() -> String
+    {
+        if _soundRecorder.isRecording
+        {
+            let hr = Int((_soundRecorder.currentTime / 60) / 60)
+            let min = Int(_soundRecorder.currentTime / 60)
+            let sec = Int(_soundRecorder.currentTime.truncatingRemainder(dividingBy: 60))
+            let totalTimeString = String(format: "%02d:%02d:%02d", hr, min, sec)
+            //recordingTimeLabel.text = totalTimeString
+            //_soundRecorder.updateMeters()
+            return totalTimeString
+        }
+        else if _soundPlayer.isPlaying {
+            let hr = Int((_soundPlayer.currentTime / 60) / 60)
+            let min = Int(_soundPlayer.currentTime / 60)
+            let sec = Int(_soundPlayer.currentTime.truncatingRemainder(dividingBy: 60))
+            let totalTimeString = String(format: "%02d:%02d:%02d", hr, min, sec)
+            //recordingTimeLabel.text = totalTimeString
+            //_soundRecorder.updateMeters()
+            return totalTimeString
+        }
+        else {
+            return String(format: "%02d:%02d:%02d", 0, 0, 0)
+        }
+    }
     
     func renameAudio(newTitle: String) {
         let today: Date = .init()

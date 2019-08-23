@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="음성 녹음, 인식 테스트" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Re-43-j6D">
-                                <rect key="frame" x="66.5" y="70" width="242.5" height="33.5"/>
+                                <rect key="frame" x="67" y="70" width="241" height="33.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="28"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -71,10 +71,12 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="이곳에 인식된 음성을 텍스트로 표현합니다." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="CUf-cd-Ysm">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="이곳에 인식된 음성을 텍스트로 표현합니다." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="CUf-cd-Ysm">
                                 <rect key="frame" x="67" y="418" width="255" height="128"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="128" id="Zfx-0A-omp"/>
+                                </constraints>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -86,14 +88,28 @@
                                     <action selector="save:" destination="BYZ-38-t0r" eventType="touchUpInside" id="8N1-Ka-SU8"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00:00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="he7-nm-NEP">
+                                <rect key="frame" x="147" y="388.5" width="81" height="21.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="he7-nm-NEP" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="147" id="1lg-BU-Udo"/>
+                            <constraint firstItem="he7-nm-NEP" firstAttribute="top" secondItem="adc-aC-aVt" secondAttribute="bottom" constant="30" id="1ls-4G-gKt"/>
+                            <constraint firstItem="he7-nm-NEP" firstAttribute="centerX" secondItem="adc-aC-aVt" secondAttribute="centerX" id="1q1-TT-Qz3"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="8gK-la-OSD" secondAttribute="bottom" constant="28" id="2ic-zC-V1f"/>
                             <constraint firstItem="AGH-Cq-4DC" firstAttribute="top" secondItem="SAT-Sh-r9w" secondAttribute="bottom" constant="44.5" id="Bm5-Ui-cUe"/>
                             <constraint firstItem="adc-aC-aVt" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Gnn-OM-OPq"/>
+                            <constraint firstItem="CUf-cd-Ysm" firstAttribute="top" secondItem="he7-nm-NEP" secondAttribute="bottom" constant="8" symbolic="YES" id="Gql-nZ-Fdj"/>
+                            <constraint firstItem="CUf-cd-Ysm" firstAttribute="leading" secondItem="2Re-43-j6D" secondAttribute="leading" id="OWx-fH-zTq"/>
                             <constraint firstItem="2Re-43-j6D" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="Wzg-cS-IhE"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="8gK-la-OSD" secondAttribute="trailing" constant="167" id="dSN-U2-jtd"/>
+                            <constraint firstItem="CUf-cd-Ysm" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="67" id="fuo-r0-rHZ"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="CUf-cd-Ysm" secondAttribute="trailing" constant="53" id="kVH-12-TiV"/>
+                            <constraint firstAttribute="bottom" secondItem="CUf-cd-Ysm" secondAttribute="bottom" constant="121" id="nas-d9-rO7"/>
                             <constraint firstItem="2Re-43-j6D" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="50" id="qXU-MF-Uca"/>
                             <constraint firstItem="adc-aC-aVt" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="tan-mP-fmO"/>
                             <constraint firstItem="8gK-la-OSD" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="166" id="tny-0L-HHw"/>
@@ -104,6 +120,7 @@
                     <tabBarItem key="tabBarItem" title="녹음 화면" id="hft-tj-e5J"/>
                     <connections>
                         <outlet property="inputValue" destination="SAT-Sh-r9w" id="DeD-SH-UQ8"/>
+                        <outlet property="meterTimerLabel" destination="he7-nm-NEP" id="fTk-nx-ugo"/>
                         <outlet property="playPauseButton" destination="AGH-Cq-4DC" id="KeZ-Zj-vIB"/>
                         <outlet property="recogTextView" destination="CUf-cd-Ysm" id="jUs-aZ-6ou"/>
                         <outlet property="recordButton" destination="ra9-zM-uea" id="jeY-FY-yem"/>
@@ -113,7 +130,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1937" y="-15"/>
+            <point key="canvasLocation" x="1936.8" y="-15.742128935532236"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="Na9-bA-vSQ">

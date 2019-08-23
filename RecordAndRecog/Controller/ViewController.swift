@@ -19,6 +19,7 @@ class ViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPlayerDe
     
     @IBOutlet weak var recogTextView: UITextView!
     @IBOutlet weak var saveButton: UIButton!
+    @IBOutlet weak var meterTimerLabel : UILabel!
     
     
     
@@ -26,6 +27,7 @@ class ViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPlayerDe
     var utils : Utils = Utils.sharedInstance
     
     var timer : Timer!
+    var meterTimer:Timer! // 파일 녹음 시간
     
     let playImage = UIImage(contentsOfFile:Bundle.main.path(forResource: "play", ofType: "png")!)
     let pauseImage = UIImage(contentsOfFile:Bundle.main.path(forResource: "pause", ofType: "png")!)
@@ -52,6 +54,8 @@ class ViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPlayerDe
     //MARK: IBActions
     @IBAction func recordTouchUp(_ sender: Any) {
         recorderAndPlayer.record()
+        // 타이머 돌리기
+        meterTimer =  Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self._metertimerUpdate),userInfo: nil,repeats: true)
         saveButton.isEnabled = false
     }
     
@@ -59,6 +63,7 @@ class ViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPlayerDe
         let identifier = playPauseButton.accessibilityIdentifier!
         if (identifier.elementsEqual(playImageID)) {
             recorderAndPlayer.play()
+            meterTimer =  Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self._metertimerUpdate),userInfo: nil,repeats: true)
             recorderAndPlayer.recognizeSpeech() { recognizedText in
                 DispatchQueue.main.async {
                     self.recogTextView.text = recognizedText
@@ -75,6 +80,7 @@ class ViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPlayerDe
         if (recorderAndPlayer.isRecording()) {
             recorderAndPlayer.stopRecording()
             saveButton.isEnabled = true
+            meterTimer.invalidate()
         }
         else if (recorderAndPlayer.isPlaying() || recorderAndPlayer.isPaused()) {
             recorderAndPlayer.stopPlayback()
@@ -126,6 +132,7 @@ class ViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPlayerDe
     
     @objc func _recordingDidFinish(_ notification:Notification) {
         timer.invalidate()
+        meterTimer.invalidate()
         recordButton.isEnabled = true
         playPauseButton.isEnabled = true
         stopButton.isEnabled = false
@@ -143,6 +150,7 @@ class ViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPlayerDe
     
     @objc func _playbackDidFinish(_ notification:Notification) {
         updateButton(button : playPauseButton, image: playImage!, identifer: playImageID)
+        meterTimer.invalidate()
         recordButton.isEnabled = true;
         stopButton.isEnabled = false
     }
@@ -158,4 +166,18 @@ class ViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPlayerDe
         let levels : [Float] = recorderAndPlayer.getMeterLevel()
         inputValue.text = String(format: "%.2f", levels[0]) + " dB"
     }
+    
+    @objc func _metertimerUpdate(){
+        var result: String = ""
+        if (recorderAndPlayer.isRecording()) {
+            recorderAndPlayer.updateRecordingMeters()
+            result = recorderAndPlayer.updateAudioMeter()
+        }
+        else if (recorderAndPlayer.isPlaying()) {
+            recorderAndPlayer.updatePlayingMeters()
+            result = recorderAndPlayer.updateAudioMeter()
+        }
+        meterTimerLabel.text = result
+    }
+    
 }
