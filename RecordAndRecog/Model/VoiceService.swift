@@ -17,14 +17,16 @@ let PlaybackDidStartNotification = Notification.Name("PlaybackDidStart")
 let PlaybackDidPauseNotification = Notification.Name("PlaybackDidPause")
 let PlaybackDidFinishNotification = Notification.Name("PlaybackDidFinish")
 
-class VoiceService : NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate {
+class VoiceService : NSObject {
 
     private var _soundRecorder : AVAudioRecorder!
     private var _soundPlayer : AVAudioPlayer!
     private var _soundRecognzer: SFSpeechRecognizer!
     private var _audioSession = AVAudioSession.sharedInstance()
-    private var _filename = "audioFile.wav"
-//    private var _filename = "audioFile.acc"
+    
+    private var FILE_NAME = fileName.RawValue()
+    private var FILE_FORMAT = fileFormat.wav
+    
     private var _playbackVolume : Float = 1.0
     private var _isPaused : Bool = false
     
@@ -91,7 +93,7 @@ class VoiceService : NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate {
      */
     
     private func setUpRecorder() {
-        let audioFilename = utils.getFullPath(forFilename: _filename)
+        let audioFilename = utils.getFullPath(forFilename: FILE_NAME)
         let recordSettings = [AVFormatIDKey : kAudioFormatLinearPCM,
                               AVLinearPCMBitDepthKey : 16,
                               AVNumberOfChannelsKey : 2,
@@ -111,7 +113,7 @@ class VoiceService : NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate {
     }
     
     private func setUpPlayer() {
-        let audioFilename = utils.getFullPath(forFilename: _filename)
+        let audioFilename = utils.getFullPath(forFilename: FILE_NAME)
         do {
             _soundPlayer = try AVAudioPlayer(contentsOf: audioFilename)
             _soundPlayer.delegate = self
@@ -122,49 +124,6 @@ class VoiceService : NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate {
         }
     }
     
-    // MARK: recognizeSpeech
-    // recognitionTask 함수가 비동기로 실행이 되는듯
-    /* 함수 return 시점 이전에 위의 태스크가 완료가 되지 않기 때문에 -> return String 의 형식으로는 인식된 글자를 전달 할 수 없음
-       내가 해결한 방법 : Task 가 끝나는 시점을 명확히 알려주기 위해 클로져 구문을 사용하였음. 위 방법이 맞는지는 추후 연구해 볼 것.
-     */
-    func recognizeSpeech(completion:@escaping (String)->Void){
-        
-        var recognizedText = "" // 인식된 음성을 문자열로 받을 변수
-        
-        SFSpeechRecognizer.requestAuthorization { (authStatus) in
-            if authStatus == SFSpeechRecognizerAuthorizationStatus.authorized {
-                
-                //let recognizer = SFSpeechRecognizer()
-                self._soundRecognzer = SFSpeechRecognizer(locale: Locale.init(identifier: "ko-KR"))
-                let request = SFSpeechURLRecognitionRequest(url: self.utils.getFullPath(forFilename: self._filename))
-                
-                self._soundRecognzer?.recognitionTask(with: request, resultHandler: { (result, error) in
-                    if let error = error {
-                        //print("Error recognizing audio: \(error.localizedDescription)")
-                        print("Error recognizing audio: \(error.localizedDescription)")
-                    } else {
-                        if let transcribedText = result?.bestTranscription.formattedString{
-                            let resultWord = String(describing: transcribedText)
-                            //self._recognizedText = resultWord
-                            recognizedText = resultWord
-                            //print("recognitionWord is : \(self.recognizedText)")
-                            print("recognitionWord is : \(recognizedText)")
-                        } else {
-                            let resultWord = "The transcribed text has not available"
-                            //self._recognizedText = resultWord
-                            recognizedText = resultWord
-                        }
-                        completion(recognizedText) // 최종 텍스트를 결과로 내보냄
-                    }
-                })
-            } else {
-                //print("There is not authtorization to access Speech Framework")
-                print("There is not authtorization to access Speech Framework")
-            }
-        }
-    }
-    
-
     //MARK: Recording
     func record() {
         _soundRecorder.record()
@@ -180,21 +139,11 @@ class VoiceService : NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate {
         return _soundRecorder.isRecording
     }
     
-    func updateRecordingMeters() {
-        _soundRecorder.updateMeters()
-    }
-    
-    func updatePlayingMeters(){
-        _soundPlayer.updateMeters()
-    }
-    
     //MARK: Playback
     func play() {
         _soundPlayer.play()
         //print("voice duration is : \(_soundPlayer.duration)")
         _isPaused = false
-        
-        
         NotificationCenter.default.post(name: PlaybackDidStartNotification, object: self)
     }
     
@@ -218,44 +167,78 @@ class VoiceService : NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate {
     func isPlaying() -> Bool {
         return _soundPlayer.isPlaying
     }
+    
+    //MARK: update
+    func updateRecordingMeters() {
+        _soundRecorder.updateMeters()
+    }
+    
+    func updatePlayingMeters(){
+        _soundPlayer.updateMeters()
+    }
 
-    //MARK: - AVAudioRecorderDelegate
-    func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
-        setUpPlayer()
-        NotificationCenter.default.post(name: RecordingDidFinishNotification, object: self)
+    
+    // MARK: recognizeSpeech
+    // recognitionTask 함수가 비동기로 실행이 되는듯
+    /* 함수 return 시점 이전에 위의 태스크가 완료가 되지 않기 때문에 -> return String 의 형식으로는 인식된 글자를 전달 할 수 없음
+     내가 해결한 방법 : Task 가 끝나는 시점을 명확히 알려주기 위해 클로져 구문을 사용하였음. 위 방법이 맞는지는 추후 연구해 볼 것.
+     */
+    func recognizeSpeech(completion:@escaping (String)->Void){
+        
+        var recognizedText = "" // 인식된 음성을 문자열로 받을 변수
+        
+        SFSpeechRecognizer.requestAuthorization { (authStatus) in
+            if authStatus == SFSpeechRecognizerAuthorizationStatus.authorized {
+                
+                self._soundRecognzer = SFSpeechRecognizer(locale: Locale.init(identifier: "ko-KR"))
+                
+                let request = SFSpeechURLRecognitionRequest(url: self.utils.getFullPath(forFilename: self.FILE_NAME))
+                
+                self._soundRecognzer?.recognitionTask(with: request, resultHandler: { (result, error) in
+                    if let error = error {
+                        print("Error recognizing audio: \(error.localizedDescription)")
+                    } else {
+                        if let transcribedText = result?.bestTranscription.formattedString{
+                            let resultWord = String(describing: transcribedText)
+                            //self._recognizedText = resultWord
+                            recognizedText = resultWord
+                            //print("recognitionWord is : \(self.recognizedText)")
+                            print("recognitionWord is : \(recognizedText)")
+                        } else {
+                            let resultWord = "The transcribed text has not available"
+                            //self._recognizedText = resultWord
+                            recognizedText = resultWord
+                        }
+                        completion(recognizedText) // 인식된 글자를 전달
+                    }
+                }) //end of recognitionTask
+            } else {
+                print("There is not authtorization to access Speech Framework")
+            }
+        }
     }
     
-    //MARK: - AVAudioPlayerDelegate
-    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
-        _isPaused = false
-        NotificationCenter.default.post(name: PlaybackDidFinishNotification, object: self)
-    }
-    
-    
+    // MARK: - Extra function
     func updateAudioMeter() -> String
     {
         if _soundRecorder.isRecording
         {
-            let hr = Int((_soundRecorder.currentTime / 60) / 60)
-            let min = Int(_soundRecorder.currentTime / 60)
-            let sec = Int(_soundRecorder.currentTime.truncatingRemainder(dividingBy: 60))
-            let totalTimeString = String(format: "%02d:%02d:%02d", hr, min, sec)
-            //recordingTimeLabel.text = totalTimeString
-            //_soundRecorder.updateMeters()
-            return totalTimeString
+            return totalTime(currentTime: _soundRecorder.currentTime)
         }
         else if _soundPlayer.isPlaying {
-            let hr = Int((_soundPlayer.currentTime / 60) / 60)
-            let min = Int(_soundPlayer.currentTime / 60)
-            let sec = Int(_soundPlayer.currentTime.truncatingRemainder(dividingBy: 60))
-            let totalTimeString = String(format: "%02d:%02d:%02d", hr, min, sec)
-            //recordingTimeLabel.text = totalTimeString
-            //_soundRecorder.updateMeters()
-            return totalTimeString
+            return totalTime(currentTime: _soundPlayer.currentTime)
         }
         else {
-            return String(format: "%02d:%02d:%02d", 0, 0, 0)
+            return totalTime(currentTime: 0)
         }
+    }
+    
+    private func totalTime(currentTime interval:TimeInterval)->String{
+        let hr = Int((interval / 60) / 60)
+        let min = Int(interval / 60)
+        let sec = Int(interval.truncatingRemainder(dividingBy: 60))
+        let totalTimeString = String(format: "%02d:%02d:%02d", hr, min, sec)
+        return totalTimeString
     }
     
     func renameAudio(newTitle: String) {
@@ -264,16 +247,11 @@ class VoiceService : NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate {
         formatter.dateFormat = "yyyyMMdd HH:mm:ss"
         let dateString = formatter.string(from: today)
         
-        let fileName = dateString + "-" + newTitle // 20190820-newTitle.m4a
+        let fileName = "\(newTitle)-\(dateString)\(FILE_FORMAT)"  // 20190820-newTitle.m4a
         
         do {
-//            let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
-//            let documentDirectory = URL(fileURLWithPath: path)
-//            let originPath = documentDirectory.appendingPathComponent(_filename)
-//            let destinationPath = documentDirectory.appendingPathComponent("\(newTitle).m4a")
-            let documentDirectory = utils.getDocumentDirectory()
-            let originPath = utils.getFullPath(forFilename: _filename)
-            let destinationPath = utils.getFullPath(forFilename:"\(fileName).wav")
+            let originPath = utils.getFullPath(forFilename: FILE_NAME)
+            let destinationPath = utils.getFullPath(forFilename:"\(fileName)")
             try FileManager.default.moveItem(at: originPath, to: destinationPath)
         } catch {
             print(error)
@@ -290,6 +268,22 @@ class VoiceService : NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate {
         return dbArray
     }
     
+}
+
+//MARK: - AVAudioRecorderDelegate
+extension VoiceService: AVAudioRecorderDelegate{
+    func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
+        setUpPlayer()
+        NotificationCenter.default.post(name: RecordingDidFinishNotification, object: self)
+    }
+}
+
+//MARK: - AVAudioPlayerDelegate
+extension VoiceService: AVAudioPlayerDelegate {
+    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
+        _isPaused = false
+        NotificationCenter.default.post(name: PlaybackDidFinishNotification, object: self)
+    }
 }
 
 // MARK: - SFSpeechRecognitionTaskDelegate -

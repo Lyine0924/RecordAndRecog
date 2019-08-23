@@ -12,12 +12,13 @@ import AudioKit
 class RecordedListVC: UITableViewController {
     
     let utils: Utils = Utils.sharedInstance
+    let FILE_TYPE = fileFormat.wav
     var list = [String]()
     
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        list = utils.getFileList(type: "wav")!
+        list = utils.getFileList(type: FILE_TYPE.rawValue)!
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -28,7 +29,7 @@ class RecordedListVC: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         list.removeAll()
-        list = utils.getFileList(type: "wav")!
+        list = utils.getFileList(type: FILE_TYPE.rawValue)!
         self.tableView.reloadData()
     }
     
@@ -41,15 +42,15 @@ class RecordedListVC: UITableViewController {
     // convert to file into wav , caf ,
     func convert(filename:String) {
         var options = AKConverter.Options()
-        options.format = "wav"
+        options.format = FILE_TYPE.rawValue
         options.sampleRate = 48000
         options.bitDepth = 24
         
-        let testname = "20190820-test"
+        //let testname = "20190820-test"
         
-        let oldURL = utils.getFullPath(forFilename: "\(testname).m4a")
+        let oldURL = utils.getFullPath(forFilename: "\(filename).m4a")
         //let newURL = utils.getFullPath(forFilename: "\(testname).\(options.format)")
-        let newURL = utils.getFullPath(forFilename: "\(testname).wav")
+        let newURL = utils.getFullPath(forFilename: "\(filename).\(FILE_TYPE)")
         
         let converter = AKConverter(inputURL: oldURL, outputURL: newURL)
         

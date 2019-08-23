@@ -8,6 +8,16 @@
 
 import Foundation
 
+enum fileName:String {
+    case name = "audioFile"
+}
+
+enum fileFormat:String {
+    case wav = ".wav"
+    case mp4 = ".mp4"
+    case m4a = ".m4a"
+}
+
 class Utils: NSObject {
     
     static let sharedInstance = Utils()

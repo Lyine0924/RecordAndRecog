@@ -12,6 +12,7 @@ import Speech
 
 class ViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPlayerDelegate { // KRKNOTES - Looks like protocols and superclasses are part of the same list. Here, I'm inheriting from UIViewController and conforming to two protocols
 
+    //MARK: UI var
     @IBOutlet weak var recordButton: UIButton!
     @IBOutlet weak var playPauseButton: UIButton!
     @IBOutlet weak var stopButton: UIButton!
@@ -21,41 +22,49 @@ class ViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPlayerDe
     @IBOutlet weak var saveButton: UIButton!
     @IBOutlet weak var meterTimerLabel : UILabel!
     
-    
-    
-    var recorderAndPlayer : VoiceService = VoiceService.sharedInstance
-    var utils : Utils = Utils.sharedInstance
-    
-    var timer : Timer!
-    var meterTimer:Timer! // 파일 녹음 시간
-    
     let playImage = UIImage(contentsOfFile:Bundle.main.path(forResource: "play", ofType: "png")!)
     let pauseImage = UIImage(contentsOfFile:Bundle.main.path(forResource: "pause", ofType: "png")!)
     
     let playImageID = "ButtonPlay"
     let pauseImageID = "ButtonPause"
     
- 
+    
+    
+    //MARK: VoiceService Var
+    var recorderAndPlayer : VoiceService = VoiceService.sharedInstance
+    var utils : Utils = Utils.sharedInstance
+    var timer : Timer! // db values
+    var meterTimer:Timer! // 파일 녹음 시간
+    
+    let DEFAULT_FILE_NAME = fileName.RawValue()//"audioFile"
+    
+    
+    // MARK: - View Override function
     override func viewDidLoad() {
         super.viewDidLoad()
-       
+        initUI()
+        initNotification()
+    }
+    
+    //MARK: - init
+    func initUI(){
         playPauseButton.isEnabled = false
         playPauseButton.accessibilityIdentifier = playImageID
         stopButton.isEnabled = false
-        
+        inputValue.isHidden = true
+    }
+    
+    func initNotification(){
         NotificationCenter.default.addObserver(self, selector: #selector(_recordingDidStart(_:)), name: RecordingDidStartNotification, object: recorderAndPlayer)
         NotificationCenter.default.addObserver(self, selector: #selector(_recordingDidFinish(_:)), name: RecordingDidFinishNotification, object: recorderAndPlayer)
         NotificationCenter.default.addObserver(self, selector: #selector(_playbackDidStart(_:)), name: PlaybackDidStartNotification, object: recorderAndPlayer)
         NotificationCenter.default.addObserver(self, selector: #selector(_playbackDidPause(_:)), name: PlaybackDidPauseNotification, object: recorderAndPlayer)
         NotificationCenter.default.addObserver(self, selector: #selector(_playbackDidFinish(_:)), name: PlaybackDidFinishNotification, object: recorderAndPlayer)
-        
     }
     
     //MARK: IBActions
     @IBAction func recordTouchUp(_ sender: Any) {
         recorderAndPlayer.record()
-        // 타이머 돌리기
-        meterTimer =  Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self._metertimerUpdate),userInfo: nil,repeats: true)
         saveButton.isEnabled = false
     }
     
@@ -97,13 +106,13 @@ class ViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPlayerDe
         let alert = UIAlertController(title: "저장 하기", message: "변경할 파일명을 입력해주세요.", preferredStyle: .alert)
         
         alert.addTextField { (tf) in
-            tf.placeholder = "audioFile"
+            tf.placeholder = "\(self.DEFAULT_FILE_NAME)"
         }
         
         let ok = UIAlertAction(title: "저장", style: .default) { (ok) in
             var rename = alert.textFields?[0].text
             if rename!.isEmpty {
-                rename = "audioFile"
+                rename = "\(self.DEFAULT_FILE_NAME)"
             }
            self.recorderAndPlayer.renameAudio(newTitle:rename!)
         }
@@ -120,11 +129,12 @@ class ViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPlayerDe
         }
     }
     
-    
     //MARK: Notification Responders
     @objc func _recordingDidStart(_ notification:Notification) {
         timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(_timerUpdate), userInfo: nil, repeats: true)
         timer.tolerance = 0.05
+        meterTimer =  Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self._metertimerUpdate),userInfo: nil,repeats: true) // 타이머 실행
+        
         playPauseButton.isEnabled = false
         recordButton.isEnabled = false
         stopButton.isEnabled = true
@@ -133,6 +143,7 @@ class ViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPlayerDe
     @objc func _recordingDidFinish(_ notification:Notification) {
         timer.invalidate()
         meterTimer.invalidate()
+        
         recordButton.isEnabled = true
         playPauseButton.isEnabled = true
         stopButton.isEnabled = false
@@ -151,6 +162,7 @@ class ViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPlayerDe
     @objc func _playbackDidFinish(_ notification:Notification) {
         updateButton(button : playPauseButton, image: playImage!, identifer: playImageID)
         meterTimer.invalidate()
+        
         recordButton.isEnabled = true;
         stopButton.isEnabled = false
     }
@@ -161,6 +173,7 @@ class ViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPlayerDe
         button.accessibilityIdentifier = identifer
     }
     
+    //MARK: - Timer
     @objc func _timerUpdate() {
         recorderAndPlayer.updateRecordingMeters()
         let levels : [Float] = recorderAndPlayer.getMeterLevel()
