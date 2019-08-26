@@ -160,9 +160,9 @@ class ViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPlayerDe
     }
     
     @objc func _playbackDidFinish(_ notification:Notification) {
+        _metertimerUpdate()
         updateButton(button : playPauseButton, image: playImage!, identifer: playImageID)
         meterTimer.invalidate()
-        
         recordButton.isEnabled = true;
         stopButton.isEnabled = false
     }
@@ -181,7 +181,7 @@ class ViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPlayerDe
     }
     
     @objc func _metertimerUpdate(){
-        var result: String = ""
+        var result: String = "00:00:00"
         if (recorderAndPlayer.isRecording()) {
             recorderAndPlayer.updateRecordingMeters()
             result = recorderAndPlayer.updateAudioMeter()

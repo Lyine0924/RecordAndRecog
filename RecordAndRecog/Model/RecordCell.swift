@@ -13,9 +13,10 @@ class RecordCell: UITableViewCell {
 
     @IBOutlet weak var fileNameLabel: UILabel!
     @IBOutlet weak var duration: UILabel!
+    @IBOutlet weak var fileSizeLabel: UILabel!
     
+
     let utils : Utils = Utils.sharedInstance
-    
     
     override func awakeFromNib() {
         super.awakeFromNib()

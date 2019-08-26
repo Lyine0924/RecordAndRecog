@@ -99,7 +99,7 @@ class VoiceService : NSObject {
         let recordSettings = [AVFormatIDKey : kAudioFormatLinearPCM,
                               AVLinearPCMBitDepthKey : 16,
                               AVNumberOfChannelsKey : 2,
-                              AVSampleRateKey : 44100.0,
+                              AVSampleRateKey : 16000,
                               AVLinearPCMIsBigEndianKey:true,
                               AVLinearPCMIsFloatKey:true]
             as [String : Any]
@@ -144,8 +144,8 @@ class VoiceService : NSObject {
     //MARK: Playback
     func play() {
         _soundPlayer.play()
+        //_soundPlayer.play(atTime: <#T##TimeInterval#>) 음성 인식을 분기별로 나눌 수 있을지도 모름.
         _isPaused = false
-        setDuration()
         NotificationCenter.default.post(name: PlaybackDidStartNotification, object: self)
     }
     
@@ -202,9 +202,7 @@ class VoiceService : NSObject {
                     } else {
                         if let transcribedText = result?.bestTranscription.formattedString{
                             let resultWord = String(describing: transcribedText)
-                            //self._recognizedText = resultWord
                             recognizedText = resultWord
-                            //print("recognitionWord is : \(self.recognizedText)")
                             print("recognitionWord is : \(recognizedText)")
                         } else {
                             let resultWord = "The transcribed text has not available"
@@ -246,10 +244,10 @@ class VoiceService : NSObject {
     func renameAudio(newTitle: String) {
         let today: Date = .init()
         let formatter: DateFormatter = .init()
-        formatter.dateFormat = "yyyyMMdd HH:mm:ss"
+        formatter.dateFormat = "yyMMdd HH:mm:ss"
         let dateString = formatter.string(from: today)
         
-        let fileName = "\(dateString)-\(newTitle).\(FILE_FORMAT.rawValue)"  // 20190820-newTitle.m4a
+        let fileName = "\(newTitle)-\(dateString).\(FILE_FORMAT.rawValue)"  // 20190820 19:08:23-newTitle.m4a
         
         do {
             let originPath = utils.getFullPath(forFilename: "\(FILE_NAME).\(FILE_FORMAT.rawValue)")
@@ -268,10 +266,6 @@ class VoiceService : NSObject {
             dbArray.append(_soundRecorder.averagePower(forChannel: ch))
         }
         return dbArray
-    }
-    
-    func setDuration(){
-        self.duration = _soundPlayer.duration
     }
     
     public func getDuration()->String{
