@@ -13,9 +13,9 @@ enum fileName:String {
 }
 
 enum fileFormat:String {
-    case wav = ".wav"
-    case mp4 = ".mp4"
-    case m4a = ".m4a"
+    case wav = "wav"
+    case mp4 = "mp4"
+    case m4a = "m4a"
 }
 
 class Utils: NSObject {
@@ -53,9 +53,9 @@ class Utils: NSObject {
             
             // if you want to filter the directory contents you can do like this:
             let Files = directoryContents.filter{ $0.pathExtension == "\(type)" }
-            print("wav urls:",Files)
+            print("\(type) urls:",Files)
             let FileNames = Files.map{ $0.deletingPathExtension().lastPathComponent }
-            print("wav list:", FileNames)
+            print("\(type) list:", FileNames)
             
             fileList = FileNames
             
@@ -65,4 +65,22 @@ class Utils: NSObject {
         return fileList
     }
     
+    func removeFile(fileName:String)->Bool{
+        let file = getFullPath(forFilename: fileName)
+        do {
+            try FileManager.default.removeItem(at: file)
+            return true
+        } catch {
+            print(error)
+            return false
+        }
+    }
+    
+    func totalTime(currentTime interval:TimeInterval)->String{
+        let hr = Int((interval / 60) / 60)
+        let min = Int(interval / 60)
+        let sec = Int(interval.truncatingRemainder(dividingBy: 60))
+        let totalTimeString = String(format: "%02d:%02d:%02d", hr, min, sec)
+        return totalTimeString
+    }
 }

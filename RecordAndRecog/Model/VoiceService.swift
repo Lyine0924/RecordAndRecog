@@ -27,6 +27,8 @@ class VoiceService : NSObject {
     private var FILE_NAME = fileName.RawValue()
     private var FILE_FORMAT = fileFormat.wav
     
+    private var duration : TimeInterval!
+    
     private var _playbackVolume : Float = 1.0
     private var _isPaused : Bool = false
     
@@ -93,7 +95,7 @@ class VoiceService : NSObject {
      */
     
     private func setUpRecorder() {
-        let audioFilename = utils.getFullPath(forFilename: FILE_NAME)
+        let audioFilename = utils.getFullPath(forFilename: "\(FILE_NAME).\(FILE_FORMAT.rawValue)")
         let recordSettings = [AVFormatIDKey : kAudioFormatLinearPCM,
                               AVLinearPCMBitDepthKey : 16,
                               AVNumberOfChannelsKey : 2,
@@ -113,7 +115,7 @@ class VoiceService : NSObject {
     }
     
     private func setUpPlayer() {
-        let audioFilename = utils.getFullPath(forFilename: FILE_NAME)
+        let audioFilename = utils.getFullPath(forFilename: "\(FILE_NAME).\(FILE_FORMAT.rawValue)")
         do {
             _soundPlayer = try AVAudioPlayer(contentsOf: audioFilename)
             _soundPlayer.delegate = self
@@ -142,8 +144,8 @@ class VoiceService : NSObject {
     //MARK: Playback
     func play() {
         _soundPlayer.play()
-        //print("voice duration is : \(_soundPlayer.duration)")
         _isPaused = false
+        setDuration()
         NotificationCenter.default.post(name: PlaybackDidStartNotification, object: self)
     }
     
@@ -192,7 +194,7 @@ class VoiceService : NSObject {
                 
                 self._soundRecognzer = SFSpeechRecognizer(locale: Locale.init(identifier: "ko-KR"))
                 
-                let request = SFSpeechURLRecognitionRequest(url: self.utils.getFullPath(forFilename: self.FILE_NAME))
+                let request = SFSpeechURLRecognitionRequest(url: self.utils.getFullPath(forFilename: "\(self.FILE_NAME).\(self.FILE_FORMAT.rawValue)"))
                 
                 self._soundRecognzer?.recognitionTask(with: request, resultHandler: { (result, error) in
                     if let error = error {
@@ -247,10 +249,10 @@ class VoiceService : NSObject {
         formatter.dateFormat = "yyyyMMdd HH:mm:ss"
         let dateString = formatter.string(from: today)
         
-        let fileName = "\(newTitle)-\(dateString)\(FILE_FORMAT)"  // 20190820-newTitle.m4a
+        let fileName = "\(dateString)-\(newTitle).\(FILE_FORMAT.rawValue)"  // 20190820-newTitle.m4a
         
         do {
-            let originPath = utils.getFullPath(forFilename: FILE_NAME)
+            let originPath = utils.getFullPath(forFilename: "\(FILE_NAME).\(FILE_FORMAT.rawValue)")
             let destinationPath = utils.getFullPath(forFilename:"\(fileName)")
             try FileManager.default.moveItem(at: originPath, to: destinationPath)
         } catch {
@@ -268,6 +270,14 @@ class VoiceService : NSObject {
         return dbArray
     }
     
+    func setDuration(){
+        self.duration = _soundPlayer.duration
+    }
+    
+    public func getDuration()->String{
+        print("voice duration is : \(self.duration)")
+        return totalTime(currentTime: self.duration)
+    }
 }
 
 //MARK: - AVAudioRecorderDelegate

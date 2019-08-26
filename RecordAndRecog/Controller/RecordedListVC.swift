@@ -19,6 +19,8 @@ class RecordedListVC: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         list = utils.getFileList(type: FILE_TYPE.rawValue)!
+        //list = utils.getFileList(type: "wav")!
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -28,9 +30,12 @@ class RecordedListVC: UITableViewController {
 
     
     override func viewWillAppear(_ animated: Bool) {
-        list.removeAll()
-        list = utils.getFileList(type: FILE_TYPE.rawValue)!
-        self.tableView.reloadData()
+        if(list.count > 0){
+            print("View will Appear called!")
+            list.removeAll()
+            list = utils.getFileList(type: FILE_TYPE.rawValue)!
+            self.tableView.reloadData()
+        }
     }
     
     // MARK: - conver to fileformat
@@ -50,7 +55,7 @@ class RecordedListVC: UITableViewController {
         
         let oldURL = utils.getFullPath(forFilename: "\(filename).m4a")
         //let newURL = utils.getFullPath(forFilename: "\(testname).\(options.format)")
-        let newURL = utils.getFullPath(forFilename: "\(filename).\(FILE_TYPE)")
+        let newURL = utils.getFullPath(forFilename: "\(filename)\(FILE_TYPE.rawValue)")
         
         let converter = AKConverter(inputURL: oldURL, outputURL: newURL)
         
@@ -59,7 +64,7 @@ class RecordedListVC: UITableViewController {
         })
     }
     
-    // MARK: - Table view data source
+// MARK: - Table view data source
 
 //    override func numberOfSections(in tableView: UITableView) -> Int {
 //        // #warning Incomplete implementation, return the number of sections
@@ -73,32 +78,43 @@ class RecordedListVC: UITableViewController {
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "recordCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "recordCell", for: indexPath) as! RecordCell
         
-        cell.textLabel?.text = "\(list[indexPath.row])"
+        let fileName = "\(list[indexPath.row]).\(FILE_TYPE.rawValue)"
+        
+        cell.fileNameLabel.text = fileName
+        cell.duration.text = cell.getDuration(fileName: fileName)
         // Configure the cell...
-
         return cell
     }
  
+    
+    
+     // Override to support editing the table view.
+     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+         if editingStyle == .delete {
+         // Delete the row from the data source
+         // 파일을 제거 할 때 인덱스의 순서 주의!
+         /*
+             tableView.deleteRows을 먼저 실행하게 되면 indexPath.row가 1 감소하게 되므로,
+             내가 원하는 로직을 구현하는데 애로사항이 생기게 됨.
+         */
+         let filename = "\(list[indexPath.row]).\(FILE_TYPE.rawValue)"
+         if utils.removeFile(fileName: filename) {
+                list.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .fade)
+            }
+         } else if editingStyle == .insert {
+         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+         }
+     }
+    
 
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.
         return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
     }
     */
 
