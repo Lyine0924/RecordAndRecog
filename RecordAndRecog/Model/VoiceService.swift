@@ -237,7 +237,8 @@ class VoiceService : NSObject {
         let hr = Int((interval / 60) / 60)
         let min = Int(interval / 60)
         let sec = Int(interval.truncatingRemainder(dividingBy: 60))
-        let totalTimeString = String(format: "%02d:%02d:%02d", hr, min, sec)
+        //let totalTimeString = String(format: "%02d:%02d:%02d", hr, min, sec)
+        let totalTimeString = String(format: "%02d:%02d", min, sec)
         return totalTimeString
     }
     
