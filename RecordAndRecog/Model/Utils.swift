@@ -103,4 +103,15 @@ class Utils: NSObject {
         let totalTimeString = String(format: "%02d:%02d:%02d", hr, min, sec)
         return totalTimeString
     }
+    
+    func dateFormat()->DateFormatter{
+        let formatter: DateFormatter = .init()
+        formatter.dateFormat = "yyMMddHHmmss"
+        return formatter
+    }
+    
+    func dateString(date:Date)->String{
+        let formatter = dateFormat()
+        return formatter.string(from: date)
+    }
 }

@@ -27,7 +27,7 @@ class ViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPlayerDe
     
     let playImageID = "ButtonPlay"
     let pauseImageID = "ButtonPause"
-    
+    let tutorialText = "녹음 후 재생버튼을 누르면 텍스트 변환 결과를 확인할 수 있습니다."
     
     
     //MARK: VoiceService Var
@@ -89,6 +89,7 @@ class ViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPlayerDe
         if (recorderAndPlayer.isRecording()) {
             recorderAndPlayer.stopRecording()
             saveButton.isEnabled = true
+            //saveFile()
             meterTimer.invalidate()
         }
         else if (recorderAndPlayer.isPlaying() || recorderAndPlayer.isPaused()) {
@@ -97,13 +98,16 @@ class ViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPlayerDe
     }
     
     @IBAction func save(_ sender: Any) {
-        // 이 버튼을 눌렀을 때, 알림창을 띄워줌
+        saveFile()
+    }
+    
+    func saveFile(){
         /* 파일 이름을 변경하시겠습니까?
          default : audioFile, Yes or No
          No ==> 바로 저장, 저장완료 알림 띄우기
          Yes ==> 새로운 커스텀 알림창 -> Label 확인, 취소 버튼 ==> 완료시, 취소시 알림.
          */
-        let alert = UIAlertController(title: "저장 하기", message: "변경할 파일명을 입력해주세요.", preferredStyle: .alert)
+        let alert = UIAlertController(title: "저장 하기", message: "저장할 파일명을 입력해주세요.", preferredStyle: .alert)
         
         alert.addTextField { (tf) in
             tf.placeholder = "\(self.DEFAULT_FILE_NAME)"
@@ -114,7 +118,8 @@ class ViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPlayerDe
             if rename!.isEmpty {
                 rename = "\(self.DEFAULT_FILE_NAME)"
             }
-           self.recorderAndPlayer.renameAudio(newTitle:rename!)
+            self.recorderAndPlayer.renameAudio(newTitle:rename!)
+            print("saved!!")
         }
         
         let cancel = UIAlertAction(title: "취소", style: .cancel)
@@ -124,9 +129,7 @@ class ViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPlayerDe
         
         self.saveButton.isEnabled = false
         
-        self.present(alert, animated: false) {
-            print("saved!!")
-        }
+        self.present(alert, animated: false)
     }
     
     //MARK: Notification Responders
@@ -160,9 +163,10 @@ class ViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPlayerDe
     }
     
     @objc func _playbackDidFinish(_ notification:Notification) {
+        meterTimer.invalidate()
         _metertimerUpdate()
         updateButton(button : playPauseButton, image: playImage!, identifer: playImageID)
-        meterTimer.invalidate()
+        self.recogTextView.text = tutorialText
         recordButton.isEnabled = true;
         stopButton.isEnabled = false
     }
@@ -181,7 +185,7 @@ class ViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPlayerDe
     }
     
     @objc func _metertimerUpdate(){
-        var result: String = "00:00:00"
+        var result: String = "00:00"
         if (recorderAndPlayer.isRecording()) {
             recorderAndPlayer.updateRecordingMeters()
             result = recorderAndPlayer.updateAudioMeter()

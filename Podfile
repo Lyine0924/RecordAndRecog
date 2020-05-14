@@ -7,5 +7,7 @@ target 'RecordAndRecog' do
 
   # Pods for RecordAndRecog
   pod 'AudioKit', '~> 4.0'
-
+  pod 'AudioKit/Core'
+  pod 'RealmSwift'
+    # Pods for SampleRealm
 end

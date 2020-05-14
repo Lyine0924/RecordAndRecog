@@ -3,15 +3,24 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		3E2BAD6F2306898000B2EFA5 /* VoiceRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E2BAD6E2306898000B2EFA5 /* VoiceRecognizer.swift */; };
-		3E351B62230E805F006C45A6 /* RecordedListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E44259B230BEA78003C1122 /* RecordedListVC.swift */; settings = {COMPILER_FLAGS = ./RecordAndRecog/Controller/RecordedListVC.swift; }; };
 		3E351B63230E8062006C45A6 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E442599230BD6A1003C1122 /* Utils.swift */; settings = {COMPILER_FLAGS = ./RecordAndRecog/RecordAndRecog/Model/Utils.swift; }; };
 		3E46D5FD231359F2001B2C02 /* RecordCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E46D5FC231359F2001B2C02 /* RecordCell.swift */; };
-		48991BB10555CAC161192F1E /* Pods_RecordAndRecog.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43B3E94B9D993C42800C4B70 /* Pods_RecordAndRecog.framework */; };
+		3E6C881A2459767900BC287A /* LHAudioService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E6C88192459767900BC287A /* LHAudioService.swift */; };
+		3EA16BC42459417600241F59 /* RecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EA16BC32459417600241F59 /* RecordViewController.swift */; };
+		3EA16BC72459474500241F59 /* music.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 3EA16BC62459474500241F59 /* music.mp3 */; };
+		3EA16BC9245953FB00241F59 /* RecordPlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EA16BC8245953FB00241F59 /* RecordPlayViewController.swift */; };
+		3EA16BCC245954C100241F59 /* ResuableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EA16BCB245954C000241F59 /* ResuableView.swift */; };
+		3EA16BCE245955C900241F59 /* Presentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EA16BCD245955C900241F59 /* Presentable.swift */; };
+		3EFE8120231F3AF90066309B /* RecordedListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EFE811F231F3AF90066309B /* RecordedListVC.swift */; };
+		3EFE8122231F3B1C0066309B /* Audio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EFE8121231F3B1C0066309B /* Audio.swift */; };
+		3EFE8125231F3C910066309B /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EFE8124231F3C910066309B /* Realm.framework */; };
+		3EFE8127231F3C910066309B /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EFE8126231F3C910066309B /* RealmSwift.framework */; };
+		70874E04EAFCB7283C1ACD94 /* Pods_RecordAndRecog.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88CBDCDD68DD3D2DC59D8FA2 /* Pods_RecordAndRecog.framework */; };
 		CC3DE31F223CAAB1000A1F76 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3DE31E223CAAB1000A1F76 /* AppDelegate.swift */; };
 		CC3DE321223CAAB1000A1F76 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3DE320223CAAB1000A1F76 /* ViewController.swift */; };
 		CC3DE324223CAAB1000A1F76 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC3DE322223CAAB1000A1F76 /* Main.storyboard */; };
@@ -26,12 +35,21 @@
 
 /* Begin PBXFileReference section */
 		3E2BAD6E2306898000B2EFA5 /* VoiceRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceRecognizer.swift; sourceTree = "<group>"; };
-		3E442599230BD6A1003C1122 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Utils.swift; path = "../../../../../../../myeongsoo-Linne/Lemonhc/ws/sourcecommit/RecordAndRecog/RecordAndRecog/Model/Utils.swift"; sourceTree = "<group>"; };
-		3E44259B230BEA78003C1122 /* RecordedListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RecordedListVC.swift; path = "../../../../../../../myeongsoo-Linne/Lemonhc/ws/sourcecommit/RecordAndRecog/RecordAndRecog/Controller/RecordedListVC.swift"; sourceTree = "<group>"; };
+		3E442599230BD6A1003C1122 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		3E46D5FC231359F2001B2C02 /* RecordCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordCell.swift; sourceTree = "<group>"; };
-		43B3E94B9D993C42800C4B70 /* Pods_RecordAndRecog.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RecordAndRecog.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		6EA71046BBA977D032B80FDF /* Pods-RecordAndRecog.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RecordAndRecog.debug.xcconfig"; path = "Target Support Files/Pods-RecordAndRecog/Pods-RecordAndRecog.debug.xcconfig"; sourceTree = "<group>"; };
-		89856E3E5457E7628712AC12 /* Pods-RecordAndRecog.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RecordAndRecog.release.xcconfig"; path = "Target Support Files/Pods-RecordAndRecog/Pods-RecordAndRecog.release.xcconfig"; sourceTree = "<group>"; };
+		3E6C88192459767900BC287A /* LHAudioService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LHAudioService.swift; sourceTree = "<group>"; };
+		3EA16BC32459417600241F59 /* RecordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordViewController.swift; sourceTree = "<group>"; };
+		3EA16BC62459474500241F59 /* music.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = music.mp3; sourceTree = "<group>"; };
+		3EA16BC8245953FB00241F59 /* RecordPlayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordPlayViewController.swift; sourceTree = "<group>"; };
+		3EA16BCB245954C000241F59 /* ResuableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResuableView.swift; sourceTree = "<group>"; };
+		3EA16BCD245955C900241F59 /* Presentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Presentable.swift; sourceTree = "<group>"; };
+		3EFE811F231F3AF90066309B /* RecordedListVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordedListVC.swift; sourceTree = "<group>"; };
+		3EFE8121231F3B1C0066309B /* Audio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Audio.swift; sourceTree = "<group>"; };
+		3EFE8124231F3C910066309B /* Realm.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Realm.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3EFE8126231F3C910066309B /* RealmSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RealmSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		671B3D5DC191B6F7A56A1561 /* Pods-RecordAndRecog.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RecordAndRecog.release.xcconfig"; path = "Target Support Files/Pods-RecordAndRecog/Pods-RecordAndRecog.release.xcconfig"; sourceTree = "<group>"; };
+		88CBDCDD68DD3D2DC59D8FA2 /* Pods_RecordAndRecog.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RecordAndRecog.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A8FC15E1287103076EE080F2 /* Pods-RecordAndRecog.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RecordAndRecog.debug.xcconfig"; path = "Target Support Files/Pods-RecordAndRecog/Pods-RecordAndRecog.debug.xcconfig"; sourceTree = "<group>"; };
 		CC3DE31B223CAAB1000A1F76 /* RecordAndRecog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RecordAndRecog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC3DE31E223CAAB1000A1F76 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CC3DE320223CAAB1000A1F76 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -51,7 +69,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				48991BB10555CAC161192F1E /* Pods_RecordAndRecog.framework in Frameworks */,
+				3EFE8125231F3C910066309B /* Realm.framework in Frameworks */,
+				3EFE8127231F3C910066309B /* RealmSwift.framework in Frameworks */,
+				70874E04EAFCB7283C1ACD94 /* Pods_RecordAndRecog.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -61,10 +81,26 @@
 		0C2575C5468964B43081C27C /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				6EA71046BBA977D032B80FDF /* Pods-RecordAndRecog.debug.xcconfig */,
-				89856E3E5457E7628712AC12 /* Pods-RecordAndRecog.release.xcconfig */,
+				A8FC15E1287103076EE080F2 /* Pods-RecordAndRecog.debug.xcconfig */,
+				671B3D5DC191B6F7A56A1561 /* Pods-RecordAndRecog.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		3EA16BCA2459549B00241F59 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				3EA16BCB245954C000241F59 /* ResuableView.swift */,
+				3EA16BCD245955C900241F59 /* Presentable.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		3EFE811E231F3AB50066309B /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		CC3DE312223CAAB1000A1F76 = {
@@ -89,7 +125,9 @@
 		CC3DE31D223CAAB1000A1F76 /* RecordAndRecog */ = {
 			isa = PBXGroup;
 			children = (
-				CC3F743D22436A8700985BB4 /* Controller */,
+				3EA16BCA2459549B00241F59 /* Protocols */,
+				3EFE811E231F3AB50066309B /* ViewModel */,
+				CC3F743D22436A8700985BB4 /* View */,
 				CC3F743C22436A7800985BB4 /* Model */,
 				CC3DE31E223CAAB1000A1F76 /* AppDelegate.swift */,
 				CC3DE322223CAAB1000A1F76 /* Main.storyboard */,
@@ -107,22 +145,27 @@
 				3E2BAD6E2306898000B2EFA5 /* VoiceRecognizer.swift */,
 				3E442599230BD6A1003C1122 /* Utils.swift */,
 				3E46D5FC231359F2001B2C02 /* RecordCell.swift */,
+				3EFE8121231F3B1C0066309B /* Audio.swift */,
+				3E6C88192459767900BC287A /* LHAudioService.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
 		};
-		CC3F743D22436A8700985BB4 /* Controller */ = {
+		CC3F743D22436A8700985BB4 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				3EFE811F231F3AF90066309B /* RecordedListVC.swift */,
 				CC3DE320223CAAB1000A1F76 /* ViewController.swift */,
-				3E44259B230BEA78003C1122 /* RecordedListVC.swift */,
+				3EA16BC32459417600241F59 /* RecordViewController.swift */,
+				3EA16BC8245953FB00241F59 /* RecordPlayViewController.swift */,
 			);
-			path = Controller;
+			path = View;
 			sourceTree = "<group>";
 		};
 		CCD8649B2248A3D900189995 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				3EA16BC62459474500241F59 /* music.mp3 */,
 				CCD8649C2248A3E400189995 /* Images */,
 			);
 			path = Resources;
@@ -142,7 +185,9 @@
 		FAC026D8D59F6565F6BA5997 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				43B3E94B9D993C42800C4B70 /* Pods_RecordAndRecog.framework */,
+				3EFE8124231F3C910066309B /* Realm.framework */,
+				3EFE8126231F3C910066309B /* RealmSwift.framework */,
+				88CBDCDD68DD3D2DC59D8FA2 /* Pods_RecordAndRecog.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -154,10 +199,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = CC3DE32D223CAAB2000A1F76 /* Build configuration list for PBXNativeTarget "RecordAndRecog" */;
 			buildPhases = (
-				A43823773993122D0849D25C /* [CP] Check Pods Manifest.lock */,
+				407703FCF6BF5A5D19B58E88 /* [CP] Check Pods Manifest.lock */,
 				CC3DE317223CAAB1000A1F76 /* Sources */,
 				CC3DE318223CAAB1000A1F76 /* Frameworks */,
 				CC3DE319223CAAB1000A1F76 /* Resources */,
+				22E6366CA759AD3CBBADD896 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -206,6 +252,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3EA16BC72459474500241F59 /* music.mp3 in Resources */,
 				CC3DE329223CAAB2000A1F76 /* LaunchScreen.storyboard in Resources */,
 				CC7718A4223E3AD1007B6A74 /* stop.png in Resources */,
 				CC7718A6223E3AD1007B6A74 /* record.png in Resources */,
@@ -219,7 +266,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		A43823773993122D0849D25C /* [CP] Check Pods Manifest.lock */ = {
+		22E6366CA759AD3CBBADD896 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-RecordAndRecog/Pods-RecordAndRecog-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-RecordAndRecog/Pods-RecordAndRecog-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-RecordAndRecog/Pods-RecordAndRecog-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		407703FCF6BF5A5D19B58E88 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -248,12 +312,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3EA16BC42459417600241F59 /* RecordViewController.swift in Sources */,
 				CC3DE321223CAAB1000A1F76 /* ViewController.swift in Sources */,
 				CCB7C26A223F04270034343F /* VoiceService.swift in Sources */,
-				3E351B62230E805F006C45A6 /* RecordedListVC.swift in Sources */,
+				3EA16BCC245954C100241F59 /* ResuableView.swift in Sources */,
+				3EA16BC9245953FB00241F59 /* RecordPlayViewController.swift in Sources */,
+				3EA16BCE245955C900241F59 /* Presentable.swift in Sources */,
+				3E6C881A2459767900BC287A /* LHAudioService.swift in Sources */,
+				3EFE8120231F3AF90066309B /* RecordedListVC.swift in Sources */,
 				3E46D5FD231359F2001B2C02 /* RecordCell.swift in Sources */,
 				3E2BAD6F2306898000B2EFA5 /* VoiceRecognizer.swift in Sources */,
 				CC3DE31F223CAAB1000A1F76 /* AppDelegate.swift in Sources */,
+				3EFE8122231F3B1C0066309B /* Audio.swift in Sources */,
 				3E351B63230E8062006C45A6 /* Utils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -398,7 +468,7 @@
 		};
 		CC3DE32E223CAAB2000A1F76 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6EA71046BBA977D032B80FDF /* Pods-RecordAndRecog.debug.xcconfig */;
+			baseConfigurationReference = A8FC15E1287103076EE080F2 /* Pods-RecordAndRecog.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -417,7 +487,7 @@
 		};
 		CC3DE32F223CAAB2000A1F76 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 89856E3E5457E7628712AC12 /* Pods-RecordAndRecog.release.xcconfig */;
+			baseConfigurationReference = 671B3D5DC191B6F7A56A1561 /* Pods-RecordAndRecog.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;

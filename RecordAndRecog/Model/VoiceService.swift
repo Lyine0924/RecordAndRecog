@@ -39,7 +39,7 @@ class VoiceService : NSObject {
         
         super.init()
         setUpRecorder()
-        setUpPlayer()
+//        setUpPlayer()
         
         /* Initially, I got the following errors everytime I try to play back recorded audio the FIRST TIME ONLY after launching my app:
          DemoRecorder[5930:2262392] [avas] AVAudioSessionPortImpl.mm:56:ValidateRequiredFields: Unknown selected data source for Port Speaker (type: Speaker)
@@ -114,8 +114,20 @@ class VoiceService : NSObject {
         }
     }
     
-    private func setUpPlayer() {
+    func setUpPlayer() {
         let audioFilename = utils.getFullPath(forFilename: "\(FILE_NAME).\(FILE_FORMAT.rawValue)")
+        do {
+            _soundPlayer = try AVAudioPlayer(contentsOf: audioFilename,fileTypeHint:fileFormat.wav.rawValue)
+            _soundPlayer.delegate = self
+            _soundPlayer.prepareToPlay()
+            _soundPlayer.volume = _playbackVolume
+        } catch {
+            print(error)
+        }
+    }
+    
+    func setPlayerFile(name:String) {
+        let audioFilename = utils.getFullPath(forFilename: "\(name)")
         do {
             _soundPlayer = try AVAudioPlayer(contentsOf: audioFilename)
             _soundPlayer.delegate = self
@@ -238,16 +250,16 @@ class VoiceService : NSObject {
         let min = Int(interval / 60)
         let sec = Int(interval.truncatingRemainder(dividingBy: 60))
         let totalTimeString = String(format: "%02d:%02d:%02d", hr, min, sec)
+//        let totalTimeString = String(format: "%02d:%02d", min, sec)
         return totalTimeString
     }
     
     func renameAudio(newTitle: String) {
         let today: Date = .init()
-        let formatter: DateFormatter = .init()
-        formatter.dateFormat = "yyMMdd HH:mm:ss"
-        let dateString = formatter.string(from: today)
         
-        let fileName = "\(newTitle)-\(dateString).\(FILE_FORMAT.rawValue)"  // 20190820 19:08:23-newTitle.m4a
+        let dateString = utils.dateString(date: today)
+        
+        let fileName = "\(newTitle)-\(dateString).\(FILE_FORMAT.rawValue)"  // 20190820 190823-newTitle.m4a
         
         do {
             let originPath = utils.getFullPath(forFilename: "\(FILE_NAME).\(FILE_FORMAT.rawValue)")
@@ -271,6 +283,21 @@ class VoiceService : NSObject {
     public func getDuration()->String{
         print("voice duration is : \(self.duration)")
         return totalTime(currentTime: self.duration)
+    }
+    
+    public func getDuration(fileName: String)->String{
+        let audioFilename = utils.getFullPath(forFilename: fileName)
+        do {
+            let Player = try AVAudioPlayer(contentsOf: audioFilename)
+            let duration = utils.totalTime(currentTime: Player.duration)
+            Player.prepareToPlay()
+            Player.volume = 1.0
+            Player.stop() // 메모리 해제를 위함, 추후 음원을 재생시 해당 부분을 삭제 하고 델리게이트 패턴으로 대체할 예정
+            return duration
+        } catch {
+            print(error)
+        }
+        return utils.totalTime(currentTime: TimeInterval.init())
     }
 }
 
